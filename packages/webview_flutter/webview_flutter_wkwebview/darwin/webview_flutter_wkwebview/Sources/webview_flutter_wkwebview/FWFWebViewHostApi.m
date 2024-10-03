@@ -4,6 +4,7 @@
 
 #import "./include/webview_flutter_wkwebview/FWFWebViewHostApi.h"
 #import "./include/webview_flutter_wkwebview/FWFDataConverters.h"
+#import "./include/webview_flutter_wkwebview/PlaceholderURLSchemeHandler.h"
 
 @implementation FWFAssetManager
 - (NSString *)lookupKeyForAsset:(NSString *)asset {
@@ -16,6 +17,8 @@
                 configuration:(nonnull WKWebViewConfiguration *)configuration
               binaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger
               instanceManager:(FWFInstanceManager *)instanceManager {
+  PlaceholderURLSchemeHandler* handler = [[PlaceholderURLSchemeHandler alloc] init];
+  [configuration setURLSchemeHandler:handler forURLScheme:@"com.communauto.reservauto"];
   self = [self initWithFrame:frame configuration:configuration];
   if (self) {
     _objectApi = [[FWFObjectFlutterApiImpl alloc] initWithBinaryMessenger:binaryMessenger

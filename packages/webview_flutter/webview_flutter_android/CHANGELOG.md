@@ -11,6 +11,7 @@
 ## 4.1.0
 
 * Updates internal API wrapper to use `ProxyApi`s.
+* Adds support for `onReceivedSslError` method to the `AndroidWebViewController`.
 
 ## 4.0.3
 
@@ -28,6 +29,10 @@
 
 * Bumps androidx.webkit:webkit from 1.12.0 to 1.12.1.
 * **Breaking Change** Bumps Android `minSdkVersion` from 19 to 21.
+
+## 3.17.0
+
+* Implements onReceivedSslError
 
 ## 3.16.9
 

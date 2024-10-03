@@ -179,12 +179,20 @@ void main() {
                         android_webview.WebView, int, String, String)?
                     onReceivedError,
                 void Function(
-                        android_webview.WebViewClient,
-                        android_webview.WebView,
-                        android_webview.WebResourceRequest)?
-                    requestLoading,
-                void Function(android_webview.WebViewClient,
-                        android_webview.WebView, String)?
+                  android_webview.WebViewClient webView,
+                  android_webview.SslErrorHandler handler,
+                  SslError error,
+                )? onReceivedSslError,
+                void Function(
+                  android_webview.WebViewClient webView,
+                  android_webview.WebResourceRequest request,
+                  android_webview.WebResourceError error,
+                )? onReceivedRequestError,
+                void Function(
+                  android_webview.WebViewClient webView,
+                  android_webview.WebResourceRequest request,
+                )? requestLoading,
+                void Function(android_webview.WebView webView, String url)?
                     urlLoading,
                 void Function(android_webview.WebViewClient,
                         android_webview.WebView, String, bool)?

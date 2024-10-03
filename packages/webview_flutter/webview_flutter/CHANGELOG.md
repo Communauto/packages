@@ -2,9 +2,14 @@
 
 * Updates minimum supported SDK version to Flutter 3.22/Dart 3.4.
 
+## 4.11.0
+
+* Adds `onSslError` callback to `NavigationDelegate` to handle SSL errors.
+
 ## 4.10.0
 
 * Updates minimum supported `webview_flutter_android` from 3.16.0 to 4.0.0.
+* Implemented onSslError
 
 ## 4.9.0
 

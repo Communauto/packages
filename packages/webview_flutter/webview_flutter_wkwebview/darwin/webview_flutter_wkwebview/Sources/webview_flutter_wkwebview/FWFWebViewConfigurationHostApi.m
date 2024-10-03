@@ -4,7 +4,7 @@
 
 #import "./include/webview_flutter_wkwebview/FWFWebViewConfigurationHostApi.h"
 #import "./include/webview_flutter_wkwebview/FWFDataConverters.h"
-#import "./include/webview_flutter_wkwebview/FWFWebViewConfigurationHostApi.h"
+#import "./include/webview_flutter_wkwebview/PlaceholderURLSchemeHandler.h"
 
 @interface FWFWebViewConfigurationFlutterApiImpl ()
 // InstanceManager must be weak to prevent a circular reference with the object it stores.
@@ -59,6 +59,10 @@
 @property(nonatomic, weak) id<FlutterBinaryMessenger> binaryMessenger;
 // InstanceManager must be weak to prevent a circular reference with the object it stores.
 @property(nonatomic, weak) FWFInstanceManager *instanceManager;
+// Placeholder url scheme handler for handling custom url schemes
+@property(nonatomic, strong) PlaceholderURLSchemeHandler *urlSchemeHandler;
+// Url schemes for which a urlSchemeHandler is currently set
+@property(nonatomic, strong) NSMutableArray<NSString *> *previousUrlSchemes;
 @end
 
 @implementation FWFWebViewConfigurationHostApiImpl
@@ -68,6 +72,8 @@
   if (self) {
     _binaryMessenger = binaryMessenger;
     _instanceManager = instanceManager;
+    _urlSchemeHandler = [[PlaceholderURLSchemeHandler alloc] init];
+    _previousUrlSchemes = [[NSMutableArray<NSString *> alloc] init];
   }
   return self;
 }
@@ -135,5 +141,31 @@
     typesInt |= FWFNativeWKAudiovisualMediaTypeFromEnumData(data);
   }
   [configuration setMediaTypesRequiringUserActionForPlayback:typesInt];
+}
+
+- (void)setCustomUrlSchemesForConfigurationWithIdentifier:(NSInteger)identifier urlSchemes:(NSArray<NSString *> *)urlSchemes error:(FlutterError *_Nullable *_Nonnull)error {
+  WKWebViewConfiguration *configuration =
+      (WKWebViewConfiguration *)[self webViewConfigurationForIdentifier:identifier];
+  
+  NSLog(@"yaySetProps");
+  if (@available(iOS 14.5, *)) {
+    [configuration setUpgradeKnownHostsToHTTPS:true];
+  }
+  if (@available(iOS 14.0, *)) {
+    [configuration setLimitsNavigationsToAppBoundDomains:false];
+  }
+  
+//  for (NSString* urlScheme in _previousUrlSchemes) {
+//    [configuration setURLSchemeHandler:nil forURLScheme:urlScheme];
+//  }
+//  
+//  [_previousUrlSchemes removeAllObjects];
+  
+  for (NSString* urlScheme in urlSchemes) {
+    NSLog(@"yaySetSchemeHandler");
+    NSLog(@"%@", _urlSchemeHandler);
+    //[configuration setURLSchemeHandler:_urlSchemeHandler forURLScheme:urlScheme];
+    //[_previousUrlSchemes addObject:urlScheme];
+  }
 }
 @end

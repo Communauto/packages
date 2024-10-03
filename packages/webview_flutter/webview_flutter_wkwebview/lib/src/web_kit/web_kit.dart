@@ -749,6 +749,16 @@ class WKWebViewConfiguration extends NSObject {
     );
   }
 
+  /// The custom url schemes that are trusted by the web view
+  ///
+  /// Calls [WKWebViewConfiguration.setURLSchemeHandler](https://developer.apple.com/documentation/webkit/wkwebviewconfiguration/seturlschemehandler(_:forurlscheme:)?language=objc).
+  Future<void> setCustomUrlSchemes(Set<String> urlSchemes) {
+    return _webViewConfigurationApi.setCustomUrlSchemesForInstances(
+      this,
+      urlSchemes,
+    );
+  }
+
   @override
   WKWebViewConfiguration copy() {
     return WKWebViewConfiguration.detached(

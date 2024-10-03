@@ -4,6 +4,9 @@
 
 import 'android_webkit.g.dart';
 
+//import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+//import 'android_webview.dart' as android_webview;
+
 /// Handles constructing objects and calling static methods for the Android
 /// WebView native library.
 ///
@@ -114,7 +117,26 @@ class AndroidWebViewProxy {
       String,
       String,
     )? onJsPrompt,
-  }) newWebChromeClient;
+  }) newWebChromeClient,
+  Future<String?> Function(
+      android_webview.WebViewClient webView,
+      android_webview.WebResourceRequest request,
+    )? requestLoading,
+    void Function(android_webview.WebViewClient webView, String url)? urlLoading,
+    void Function(android_webview.WebViewClient webView, String url, bool isReload)?
+        doUpdateVisitedHistory,
+    void Function(
+      android_webview.WebViewClient webView,
+      android_webview.HttpAuthHandler handler,
+      String host,
+      String realm,
+    )? onReceivedHttpAuthRequest,
+    void Function(
+      android_webview.WebViewClient webView,
+      android_webview.SslErrorHandler handler,
+      SslError error,
+    )? onReceivedSslError,
+  }) createAndroidWebViewClient;
 
   /// Calls to [WebView.setWebContentsDebuggingEnabled].
   final Future<void> Function(bool) setWebContentsDebuggingEnabledWebView;

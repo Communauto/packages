@@ -3,6 +3,8 @@
 * Adds a change listener for the `canGoBack` property. See
   `WebKitWebViewController.setOnCanGoBackChange`.
 * Updates minimum supported SDK version to Flutter 3.22/Dart 3.4.
+* Implements handling for the NSURLAuthenticationMethodServerTrust authentication method.
+* Supports custom URL schemes
 
 ## 3.16.3
 
@@ -19,6 +21,7 @@
 ## 3.16.0
 
 * Supports NTLM for authentication.
+* Implement handling for the NSURLAuthenticationMethodServerTrust authentication method
 
 ## 3.15.0
 

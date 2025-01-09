@@ -1,3 +1,7 @@
+## 3.18.0
+
+* Supports custom URL schemes
+
 ## 3.17.0
 
 * Implements handling for the NSURLAuthenticationMethodServerTrust authentication method.

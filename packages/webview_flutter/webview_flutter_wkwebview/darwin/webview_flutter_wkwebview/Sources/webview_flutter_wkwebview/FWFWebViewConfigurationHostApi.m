@@ -147,6 +147,7 @@
   WKWebViewConfiguration *configuration =
       (WKWebViewConfiguration *)[self webViewConfigurationForIdentifier:identifier];
   
+  NSLog(@"yaySetProps");
   if (@available(iOS 14.5, *)) {
     [configuration setUpgradeKnownHostsToHTTPS:true];
   }

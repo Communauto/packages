@@ -516,6 +516,9 @@ class NSUrlAuthenticationMethod {
   /// Use HTTP digest authentication for this protection space.
   static const String httpDigest = 'NSURLAuthenticationMethodHTTPDigest';
 
+  /// Use NTLM authentication for this protection space.
+  static const String httpNtlm = 'NSURLAuthenticationMethodNTLM';
+
   /// Use HTTP digest authentication for this protection space.
   static const String serverTrust = 'NSURLAuthenticationMethodServerTrust';
 }

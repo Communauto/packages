@@ -164,7 +164,7 @@
   for (NSString* urlScheme in urlSchemes) {
     NSLog(@"yaySetSchemeHandler");
     NSLog(@"%@", _urlSchemeHandler);
-    [configuration setURLSchemeHandler:_urlSchemeHandler forURLScheme:urlScheme];
+    //[configuration setURLSchemeHandler:_urlSchemeHandler forURLScheme:urlScheme];
     //[_previousUrlSchemes addObject:urlScheme];
   }
 }

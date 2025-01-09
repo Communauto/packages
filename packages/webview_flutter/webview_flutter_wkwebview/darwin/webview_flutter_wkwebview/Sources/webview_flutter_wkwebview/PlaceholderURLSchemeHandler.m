@@ -11,7 +11,10 @@
 @implementation PlaceholderURLSchemeHandler
 
 - (void)webView:(nonnull WKWebView *)webView startURLSchemeTask:(nonnull id<WKURLSchemeTask>)urlSchemeTask {
-
+  NSURLResponse* urlResponse = [[NSURLResponse alloc] initWithURL:urlSchemeTask.request.URL MIMEType:@"text/plain" expectedContentLength:0 textEncodingName:@"UTF-8"];
+  [urlSchemeTask didReceiveResponse:urlResponse];
+  [urlSchemeTask didReceiveData: [[NSData alloc] init]];
+  [urlSchemeTask didFinish];
 }
 
 - (void)webView:(nonnull WKWebView *)webView stopURLSchemeTask:(nonnull id<WKURLSchemeTask>)urlSchemeTask { 

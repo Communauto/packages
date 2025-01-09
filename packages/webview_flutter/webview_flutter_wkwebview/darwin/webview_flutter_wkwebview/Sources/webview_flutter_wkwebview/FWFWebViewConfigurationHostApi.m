@@ -147,6 +147,14 @@
   WKWebViewConfiguration *configuration =
       (WKWebViewConfiguration *)[self webViewConfigurationForIdentifier:identifier];
   
+  NSLog(@"yaySetProps");
+  if (@available(iOS 14.5, *)) {
+    [configuration setUpgradeKnownHostsToHTTPS:true];
+  }
+  if (@available(iOS 14.0, *)) {
+    [configuration setLimitsNavigationsToAppBoundDomains:false];
+  }
+  
 //  for (NSString* urlScheme in _previousUrlSchemes) {
 //    [configuration setURLSchemeHandler:nil forURLScheme:urlScheme];
 //  }

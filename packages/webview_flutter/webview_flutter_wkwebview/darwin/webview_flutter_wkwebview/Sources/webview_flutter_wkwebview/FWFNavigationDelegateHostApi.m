@@ -191,8 +191,6 @@
 - (void)webView:(WKWebView *)webView
     decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
                     decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-  NSLog(@"yayDecide");
-  NSLog(@"%@", navigationAction.request.URL);
   [self.navigationDelegateAPI
       decidePolicyForNavigationActionForDelegate:self
                                          webView:webView

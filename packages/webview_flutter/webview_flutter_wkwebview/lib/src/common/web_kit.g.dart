@@ -251,22 +251,6 @@ enum NSUrlCredentialPersistence {
   synchronizable,
 }
 
-/// Defines the types of SSL errors
-enum SslErrorTypeData {
-  /// The user did not specify a trust setting
-  unspecified,
-  /// The user specified that the certificate should not be trusted
-  deny,
-  /// Trust is denied, but recovery may be possible
-  recoverableTrustFailure,
-  /// Trust is denied and no simple fix is available
-  fatalTrustFailure,
-  /// A value that indicates a failure other than trust evaluation
-  otherError,
-  /// An indication of an invalid setting or result
-  invalid,
-}
-
 class NSKeyValueObservingOptionsEnumData {
   NSKeyValueObservingOptionsEnumData({
     required this.value,
@@ -1268,6 +1252,28 @@ class WKWebViewConfigurationHostApi {
     );
     final List<Object?>? __pigeon_replyList =
         await __pigeon_channel.send(<Object?>[identifier, types]) as List<Object?>?;
+    if (__pigeon_replyList == null) {
+      throw _createConnectionError(__pigeon_channelName);
+    } else if (__pigeon_replyList.length > 1) {
+      throw PlatformException(
+        code: __pigeon_replyList[0]! as String,
+        message: __pigeon_replyList[1] as String?,
+        details: __pigeon_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> setCustomUrlSchemes(int identifier, List<String?> urlSchemes) async {
+    final String __pigeon_channelName = 'dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes$__pigeon_messageChannelSuffix';
+    final BasicMessageChannel<Object?> __pigeon_channel = BasicMessageChannel<Object?>(
+      __pigeon_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: __pigeon_binaryMessenger,
+    );
+    final List<Object?>? __pigeon_replyList =
+        await __pigeon_channel.send(<Object?>[identifier, urlSchemes]) as List<Object?>?;
     if (__pigeon_replyList == null) {
       throw _createConnectionError(__pigeon_channelName);
     } else if (__pigeon_replyList.length > 1) {
@@ -3435,9 +3441,6 @@ abstract class NSUrlProtectionSpaceFlutterApi {
   /// Create a new Dart instance and add it to the `InstanceManager`.
   void create(int identifier, String? host, String? realm, String? authenticationMethod);
 
-  /// Create a new Dart instance and add it to the `InstanceManager`.
-  void createWithServerTrust(int identifier, SslErrorTypeData? sslErrorTypeData, Uint8List? x509CertificateDer, String? protocol, String? host, int port);
-
   static void setUp(NSUrlProtectionSpaceFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
@@ -3459,38 +3462,6 @@ abstract class NSUrlProtectionSpaceFlutterApi {
           final String? arg_authenticationMethod = (args[3] as String?);
           try {
             api.create(arg_identifier!, arg_host, arg_realm, arg_authenticationMethod);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> __pigeon_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        __pigeon_channel.setMessageHandler(null);
-      } else {
-        __pigeon_channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_identifier = (args[0] as int?);
-          assert(arg_identifier != null,
-              'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust was null, expected non-null int.');
-          final SslErrorTypeData? arg_sslErrorTypeData = args[1] == null ? null : SslErrorTypeData.values[args[1]! as int];
-          final Uint8List? arg_x509CertificateDer = (args[2] as Uint8List?);
-          final String? arg_protocol = (args[3] as String?);
-          final String? arg_host = (args[4] as String?);
-          final int? arg_port = (args[5] as int?);
-          assert(arg_port != null,
-              'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust was null, expected non-null int.');
-          try {
-            api.createWithServerTrust(arg_identifier!, arg_sslErrorTypeData, arg_x509CertificateDer, arg_protocol, arg_host, arg_port!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

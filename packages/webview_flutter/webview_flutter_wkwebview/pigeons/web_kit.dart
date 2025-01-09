@@ -564,6 +564,11 @@ abstract class WKWebViewConfigurationHostApi {
     int identifier,
     List<WKAudiovisualMediaTypeEnumData> types,
   );
+
+  @ObjCSelector(
+    'setCustomUrlSchemesForConfigurationWithIdentifier:urlSchemes:',
+  )
+  void setCustomUrlSchemes(int identifier, List<String> urlSchemes);
 }
 
 /// Handles callbacks from a WKWebViewConfiguration instance.

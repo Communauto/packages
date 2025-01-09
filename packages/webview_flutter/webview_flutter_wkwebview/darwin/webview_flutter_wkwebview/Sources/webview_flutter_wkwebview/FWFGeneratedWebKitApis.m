@@ -215,17 +215,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 }
 @end
 
-/// Defines the types of SSL errors
-@implementation FWFSslErrorTypeDataBox
-- (instancetype)initWithValue:(FWFSslErrorTypeData)value {
-  self = [super init];
-  if (self) {
-    _value = value;
-  }
-  return self;
-}
-@end
-
 @interface FWFNSKeyValueObservingOptionsEnumData ()
 + (FWFNSKeyValueObservingOptionsEnumData *)fromList:(NSArray *)list;
 + (nullable FWFNSKeyValueObservingOptionsEnumData *)nullableFromList:(NSArray *)list;
@@ -1288,6 +1277,26 @@ void SetUpFWFWKWebViewConfigurationHostApiWithSuffix(id<FlutterBinaryMessenger> 
         NSArray<FWFWKAudiovisualMediaTypeEnumData *> *arg_types = GetNullableObjectAtIndex(args, 1);
         FlutterError *error;
         [api setMediaTypesRequiresUserActionForConfigurationWithIdentifier:arg_identifier forTypes:arg_types error:&error];
+        callback(wrapResult(nil, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes", messageChannelSuffix]
+        binaryMessenger:binaryMessenger
+        codec:FWFWKWebViewConfigurationHostApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(setCustomUrlSchemesForConfigurationWithIdentifier:urlSchemes:error:)], @"FWFWKWebViewConfigurationHostApi api (%@) doesn't respond to @selector(setCustomUrlSchemesForConfigurationWithIdentifier:urlSchemes:error:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        NSInteger arg_identifier = [GetNullableObjectAtIndex(args, 0) integerValue];
+        NSArray<NSString *> *arg_urlSchemes = GetNullableObjectAtIndex(args, 1);
+        FlutterError *error;
+        [api setCustomUrlSchemesForConfigurationWithIdentifier:arg_identifier urlSchemes:arg_urlSchemes error:&error];
         callback(wrapResult(nil, error));
       }];
     } else {
@@ -3295,25 +3304,6 @@ NSObject<FlutterMessageCodec> *FWFNSUrlProtectionSpaceFlutterApiGetCodec(void) {
       binaryMessenger:self.binaryMessenger
       codec:FWFNSUrlProtectionSpaceFlutterApiGetCodec()];
   [channel sendMessage:@[@(arg_identifier), arg_host ?: [NSNull null], arg_realm ?: [NSNull null], arg_authenticationMethod ?: [NSNull null]] reply:^(NSArray<id> *reply) {
-    if (reply != nil) {
-      if (reply.count > 1) {
-        completion([FlutterError errorWithCode:reply[0] message:reply[1] details:reply[2]]);
-      } else {
-        completion(nil);
-      }
-    } else {
-      completion(createConnectionError(channelName));
-    } 
-  }];
-}
-- (void)createWithIdentifier:(NSInteger)arg_identifier sslErrorTypeData:(nullable FWFSslErrorTypeDataBox *)arg_sslErrorTypeData x509CertificateDer:(nullable FlutterStandardTypedData *)arg_x509CertificateDer protocol:(nullable NSString *)arg_protocol host:(nullable NSString *)arg_host port:(NSInteger)arg_port completion:(void (^)(FlutterError *_Nullable))completion {
-  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust", _messageChannelSuffix];
-  FlutterBasicMessageChannel *channel =
-    [FlutterBasicMessageChannel
-      messageChannelWithName:channelName
-      binaryMessenger:self.binaryMessenger
-      codec:FWFNSUrlProtectionSpaceFlutterApiGetCodec()];
-  [channel sendMessage:@[@(arg_identifier), arg_sslErrorTypeData == nil ? [NSNull null] : [NSNumber numberWithInteger:arg_sslErrorTypeData.value], arg_x509CertificateDer ?: [NSNull null], arg_protocol ?: [NSNull null], arg_host ?: [NSNull null], @(arg_port)] reply:^(NSArray<id> *reply) {
     if (reply != nil) {
       if (reply.count > 1) {
         completion([FlutterError errorWithCode:reply[0] message:reply[1] details:reply[2]]);

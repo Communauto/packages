@@ -411,6 +411,8 @@ abstract class TestWKWebViewConfigurationHostApi {
 
   void setMediaTypesRequiringUserActionForPlayback(int identifier, List<WKAudiovisualMediaTypeEnumData?> types);
 
+  void setCustomUrlSchemes(int identifier, List<String?> urlSchemes);
+
   static void setUp(TestWKWebViewConfigurationHostApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
@@ -541,6 +543,34 @@ abstract class TestWKWebViewConfigurationHostApi {
               'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback was null, expected non-null List<WKAudiovisualMediaTypeEnumData?>.');
           try {
             api.setMediaTypesRequiringUserActionForPlayback(arg_identifier!, arg_types!);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> __pigeon_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(__pigeon_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(__pigeon_channel, (Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_identifier = (args[0] as int?);
+          assert(arg_identifier != null,
+              'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes was null, expected non-null int.');
+          final List<String?>? arg_urlSchemes = (args[1] as List<Object?>?)?.cast<String?>();
+          assert(arg_urlSchemes != null,
+              'Argument for dev.flutter.pigeon.webview_flutter_wkwebview.WKWebViewConfigurationHostApi.setCustomUrlSchemes was null, expected non-null List<String?>.');
+          try {
+            api.setCustomUrlSchemes(arg_identifier!, arg_urlSchemes!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

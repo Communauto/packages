@@ -221,6 +221,8 @@ Page resource error:
         uri: Uri.parse('https://flutter.dev'),
       ));
 
+    Future.delayed(Duration(seconds:3)).then((_) => _controller.loadHtmlString('<!DOCTYPE html><html lang="en"><body><a href="someScheme://test">Link2</a></body></html>'));
+
     // setBackgroundColor and setOnScrollPositionChange are not supported on
     // macOS.
     if (Platform.isIOS) {
@@ -231,6 +233,9 @@ Page resource error:
           'Scroll position change to x = ${scrollPositionChange.x}, y = ${scrollPositionChange.y}',
         );
       });
+        (_controller as WebKitWebViewController)
+            .setCustomUrlSchemes(const <String>{'someScheme'});
+      }
     }
   }
 

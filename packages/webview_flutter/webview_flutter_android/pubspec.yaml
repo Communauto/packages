@@ -23,7 +23,7 @@ dependencies:
   webview_flutter_platform_interface:
     git:
       url: https://github.com/Colman/packages.git
-      ref: webview-support-on-custom-scheme-load-fixed-dependencies
+      ref: webview-bypass-ssl-and-custom-scheme-support
       path: packages/webview_flutter/webview_flutter_platform_interface
 
 dev_dependencies:

@@ -1,3 +1,7 @@
+## 3.17.0
+
+* Supports custom URL schemes
+
 ## 3.16.0
 
 * Supports NTLM for authentication.

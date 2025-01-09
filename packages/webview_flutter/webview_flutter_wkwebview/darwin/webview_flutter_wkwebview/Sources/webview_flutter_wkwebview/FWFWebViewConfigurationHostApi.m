@@ -147,15 +147,15 @@
   WKWebViewConfiguration *configuration =
       (WKWebViewConfiguration *)[self webViewConfigurationForIdentifier:identifier];
   
-  for (NSString* urlScheme in _previousUrlSchemes) {
-    [configuration setURLSchemeHandler:nil forURLScheme:urlScheme];
-  }
-  
-  [_previousUrlSchemes removeAllObjects];
+//  for (NSString* urlScheme in _previousUrlSchemes) {
+//    [configuration setURLSchemeHandler:nil forURLScheme:urlScheme];
+//  }
+//  
+//  [_previousUrlSchemes removeAllObjects];
   
   for (NSString* urlScheme in urlSchemes) {
     [configuration setURLSchemeHandler:_urlSchemeHandler forURLScheme:urlScheme];
-    [_previousUrlSchemes addObject:urlScheme];
+    //[_previousUrlSchemes addObject:urlScheme];
   }
 }
 @end

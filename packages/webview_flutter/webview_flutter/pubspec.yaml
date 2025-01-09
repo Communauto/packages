@@ -24,17 +24,19 @@ dependencies:
   webview_flutter_android:
     git:
       url: https://github.com/Colman/packages.git
-      ref: add-an-option-to-bypass-ssl-checks-fixed-dependencies
+      ref: webview-support-on-custom-scheme-load-fixed-dependencies
       path: packages/webview_flutter/webview_flutter_android
+
   webview_flutter_platform_interface:
     git:
       url: https://github.com/Colman/packages.git
-      ref: add-an-option-to-bypass-ssl-checks-fixed-dependencies
+      ref: webview-support-on-custom-scheme-load-fixed-dependencies
       path: packages/webview_flutter/webview_flutter_platform_interface
+
   webview_flutter_wkwebview:
     git:
       url: https://github.com/Colman/packages.git
-      ref: add-an-option-to-bypass-ssl-checks-fixed-dependencies
+      ref: webview-support-on-custom-scheme-load-fixed-dependencies
       path: packages/webview_flutter/webview_flutter_wkwebview
 
 dev_dependencies:

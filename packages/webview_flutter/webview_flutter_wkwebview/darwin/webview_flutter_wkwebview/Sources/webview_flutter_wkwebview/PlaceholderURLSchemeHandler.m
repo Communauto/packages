@@ -11,7 +11,8 @@
 @implementation PlaceholderURLSchemeHandler
 
 - (void)webView:(nonnull WKWebView *)webView startURLSchemeTask:(nonnull id<WKURLSchemeTask>)urlSchemeTask {
-  NSURLResponse* urlResponse = [[NSURLResponse alloc] initWithURL:urlSchemeTask.request.URL MIMEType:@"text/html" expectedContentLength:0 textEncodingName:@"utf-8"];
+  NSLog(@"yayPlaceholderCallback");
+  NSURLResponse* urlResponse = [[NSURLResponse alloc] initWithURL:urlSchemeTask.request.URL MIMEType:@"text/html" expectedContentLength:-1 textEncodingName:@"utf-8"];
   [urlSchemeTask didReceiveResponse:urlResponse];
   [urlSchemeTask didReceiveData: [[NSData alloc] init]];
   [urlSchemeTask didFinish];

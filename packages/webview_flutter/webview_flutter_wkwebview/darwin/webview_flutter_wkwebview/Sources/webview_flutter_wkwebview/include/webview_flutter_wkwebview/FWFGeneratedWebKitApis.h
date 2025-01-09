@@ -320,6 +320,28 @@ typedef NS_ENUM(NSUInteger, FWFNSUrlCredentialPersistence) {
 - (instancetype)initWithValue:(FWFNSUrlCredentialPersistence)value;
 @end
 
+/// Defines the types of SSL errors
+typedef NS_ENUM(NSUInteger, FWFSslErrorTypeData) {
+  /// The user did not specify a trust setting
+  FWFSslErrorTypeDataUnspecified = 0,
+  /// The user specified that the certificate should not be trusted
+  FWFSslErrorTypeDataDeny = 1,
+  /// Trust is denied, but recovery may be possible
+  FWFSslErrorTypeDataRecoverableTrustFailure = 2,
+  /// Trust is denied and no simple fix is available
+  FWFSslErrorTypeDataFatalTrustFailure = 3,
+  /// A value that indicates a failure other than trust evaluation
+  FWFSslErrorTypeDataOtherError = 4,
+  /// An indication of an invalid setting or result
+  FWFSslErrorTypeDataInvalid = 5,
+};
+
+/// Wrapper for FWFSslErrorTypeData to allow for nullability.
+@interface FWFSslErrorTypeDataBox : NSObject
+@property(nonatomic, assign) FWFSslErrorTypeData value;
+- (instancetype)initWithValue:(FWFSslErrorTypeData)value;
+@end
+
 @class FWFNSKeyValueObservingOptionsEnumData;
 @class FWFNSKeyValueChangeKeyEnumData;
 @class FWFWKUserScriptInjectionTimeEnumData;
@@ -944,6 +966,8 @@ NSObject<FlutterMessageCodec> *FWFNSUrlProtectionSpaceFlutterApiGetCodec(void);
 - (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger messageChannelSuffix:(nullable NSString *)messageChannelSuffix;
 /// Create a new Dart instance and add it to the `InstanceManager`.
 - (void)createWithIdentifier:(NSInteger)identifier host:(nullable NSString *)host realm:(nullable NSString *)realm authenticationMethod:(nullable NSString *)authenticationMethod completion:(void (^)(FlutterError *_Nullable))completion;
+/// Create a new Dart instance and add it to the `InstanceManager`.
+- (void)createWithIdentifier:(NSInteger)identifier sslErrorTypeData:(nullable FWFSslErrorTypeDataBox *)sslErrorTypeDataBoxed x509CertificateDer:(nullable FlutterStandardTypedData *)x509CertificateDer protocol:(nullable NSString *)protocol host:(nullable NSString *)host port:(NSInteger)port completion:(void (^)(FlutterError *_Nullable))completion;
 @end
 
 /// The codec used by FWFNSUrlAuthenticationChallengeFlutterApi.

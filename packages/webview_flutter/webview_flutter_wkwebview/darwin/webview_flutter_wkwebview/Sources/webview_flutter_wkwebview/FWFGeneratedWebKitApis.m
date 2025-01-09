@@ -215,6 +215,17 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 }
 @end
 
+/// Defines the types of SSL errors
+@implementation FWFSslErrorTypeDataBox
+- (instancetype)initWithValue:(FWFSslErrorTypeData)value {
+  self = [super init];
+  if (self) {
+    _value = value;
+  }
+  return self;
+}
+@end
+
 @interface FWFNSKeyValueObservingOptionsEnumData ()
 + (FWFNSKeyValueObservingOptionsEnumData *)fromList:(NSArray *)list;
 + (nullable FWFNSKeyValueObservingOptionsEnumData *)nullableFromList:(NSArray *)list;
@@ -3304,6 +3315,25 @@ NSObject<FlutterMessageCodec> *FWFNSUrlProtectionSpaceFlutterApiGetCodec(void) {
       binaryMessenger:self.binaryMessenger
       codec:FWFNSUrlProtectionSpaceFlutterApiGetCodec()];
   [channel sendMessage:@[@(arg_identifier), arg_host ?: [NSNull null], arg_realm ?: [NSNull null], arg_authenticationMethod ?: [NSNull null]] reply:^(NSArray<id> *reply) {
+    if (reply != nil) {
+      if (reply.count > 1) {
+        completion([FlutterError errorWithCode:reply[0] message:reply[1] details:reply[2]]);
+      } else {
+        completion(nil);
+      }
+    } else {
+      completion(createConnectionError(channelName));
+    } 
+  }];
+}
+- (void)createWithIdentifier:(NSInteger)arg_identifier sslErrorTypeData:(nullable FWFSslErrorTypeDataBox *)arg_sslErrorTypeData x509CertificateDer:(nullable FlutterStandardTypedData *)arg_x509CertificateDer protocol:(nullable NSString *)arg_protocol host:(nullable NSString *)arg_host port:(NSInteger)arg_port completion:(void (^)(FlutterError *_Nullable))completion {
+  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.webview_flutter_wkwebview.NSUrlProtectionSpaceFlutterApi.createWithServerTrust", _messageChannelSuffix];
+  FlutterBasicMessageChannel *channel =
+    [FlutterBasicMessageChannel
+      messageChannelWithName:channelName
+      binaryMessenger:self.binaryMessenger
+      codec:FWFNSUrlProtectionSpaceFlutterApiGetCodec()];
+  [channel sendMessage:@[@(arg_identifier), arg_sslErrorTypeData == nil ? [NSNull null] : [NSNumber numberWithInteger:arg_sslErrorTypeData.value], arg_x509CertificateDer ?: [NSNull null], arg_protocol ?: [NSNull null], arg_host ?: [NSNull null], @(arg_port)] reply:^(NSArray<id> *reply) {
     if (reply != nil) {
       if (reply.count > 1) {
         completion([FlutterError errorWithCode:reply[0] message:reply[1] details:reply[2]]);

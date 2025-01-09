@@ -659,6 +659,17 @@ class WKWebViewConfigurationHostApiImpl extends WKWebViewConfigurationHostApi {
       _toWKAudiovisualMediaTypeEnumData(types).toList(),
     );
   }
+
+  /// Calls [setCustomUrlSchemes] with the ids of the provided object instances.
+  Future<void> setCustomUrlSchemesForInstances(
+    WKWebViewConfiguration instance,
+    Set<String> urlSchemes,
+  ) {
+    return setCustomUrlSchemes(
+      instanceManager.getIdentifier(instance)!,
+      urlSchemes.toList(),
+    );
+  }
 }
 
 /// Flutter api implementation for [WKWebViewConfiguration].

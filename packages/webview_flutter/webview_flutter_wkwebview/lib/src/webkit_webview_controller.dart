@@ -842,6 +842,13 @@ window.addEventListener("error", function(e) {
           onJavaScriptTextInputDialog) async {
     _onJavaScriptTextInputDialog = onJavaScriptTextInputDialog;
   }
+
+  /// Sets the trusted custom url schemes for the web view.
+  Future<void> setCustomUrlSchemes(Set<String> customUrlSchemes) async {
+    return _webView.configuration.setCustomUrlSchemes(<String>{
+      for (final String urlScheme in customUrlSchemes) urlScheme.toLowerCase()
+    });
+  }
 }
 
 /// An implementation of [JavaScriptChannelParams] with the WebKit api.

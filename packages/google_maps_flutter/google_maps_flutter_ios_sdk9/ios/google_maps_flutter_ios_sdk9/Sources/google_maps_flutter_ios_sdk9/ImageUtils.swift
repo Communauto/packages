@@ -49,6 +49,10 @@ extension PlatformBitmap {
       // Refer to the flutter google_maps_flutter_platform_interface package for details.
       image = UIImage(data: bitmap.byteData.data, scale: screenScale)
     case let bitmap as PlatformBitmapAssetMap:
+      let cacheKey = bitmap.iconCacheKey(screenScale: screenScale)
+      if let cachedIcon = assetMapIconCache.object(forKey: cacheKey) {
+        return cachedIcon
+      }
       if let key = assetProvider.lookupKey(forAsset: bitmap.assetName) {
         image = assetProvider.imageNamed(key)
       }
@@ -61,6 +65,9 @@ extension PlatformBitmap {
         } else {
           image = scaledImage(currentImage, scale: CGFloat(bitmap.imagePixelRatio))
         }
+      }
+      if let icon = image {
+        assetMapIconCache.setObject(icon, forKey: cacheKey)
       }
     case let bitmap as PlatformBitmapBytesMap:
       let bytes = bitmap.byteData
@@ -252,4 +259,27 @@ func isScalableWithScaleFactor(from originalSize: CGSize, to targetSize: CGSize)
   // The image is considered scalable with scale factor
   // if both dimensions are within the threshold.
   return widthWithinThreshold && heightWithinThreshold
+}
+
+/// Caches the icons created from `PlatformBitmapAssetMap` bitmaps, keyed by everything that
+/// affects the resulting image.
+///
+/// The Maps SDK allocates marker texture space per `UIImage` instance instead of per image content.
+/// `auto` scaling wraps the asset in a new `UIImage` for every marker, so a map showing many markers
+/// built from the same few assets exhausts the SDK's texture atlases. Sharing one instance between
+/// identical bitmaps avoids that, and is safe because `UIImage` is immutable.
+///
+/// `NSCache` is thread-safe, and releases its contents when the system is under memory pressure.
+private let assetMapIconCache = NSCache<NSString, UIImage>()
+
+extension PlatformBitmapAssetMap {
+  /// Returns a key that covers every input of the icon created from this bitmap, so that bitmaps
+  /// that would produce different images never share one.
+  fileprivate func iconCacheKey(screenScale: CGFloat) -> NSString {
+    let widthKey = width?.description ?? "nil"
+    let heightKey = height?.description ?? "nil"
+    return
+      "\(assetName)|\(bitmapScaling.rawValue)|\(imagePixelRatio)|\(widthKey)|\(heightKey)|\(screenScale)"
+      as NSString
+  }
 }

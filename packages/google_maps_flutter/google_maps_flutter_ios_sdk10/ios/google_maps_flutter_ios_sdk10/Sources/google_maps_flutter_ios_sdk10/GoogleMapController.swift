@@ -149,7 +149,9 @@ public class GoogleMapController: NSObject, GMSMapViewDelegate, FlutterPlatformV
     tileProvider: TileProviderDelegate
   ) {
     self.mapView = mapView
-    mapView.accessibilityElementsHidden = false
+    // Hide the markers from accessibility: the map otherwise maintains one accessibility element
+    // per marker, which makes adding or changing many markers slow.
+    mapView.accessibilityElementsHidden = true
     mapView.paddingAdjustmentBehavior = .never
     // The code below must be kept in sync with `interpretMapConfiguration`. The small amount of
     // duplication here is to avoid having to defer all map view configuration until after the

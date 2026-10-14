@@ -79,10 +79,14 @@ class MarkerController {
   ) {
     marker.groundAnchor = platformMarker.anchor.toCGPoint()
     marker.isDraggable = platformMarker.draggable
-    marker.icon = platformMarker.icon.createIcon(
+    let icon = platformMarker.icon.createIcon(
       assetProvider: assetProvider,
       screenScale: screenScale
     )
+    // Icons are shared between identical bitmaps, so an unchanged icon is the same instance.
+    if marker.icon !== icon {
+      marker.icon = icon
+    }
     marker.isFlat = platformMarker.flat
     marker.position = platformMarker.position.toCLLocationCoordinate2D()
     marker.rotation = platformMarker.rotation

@@ -136,6 +136,58 @@ import Testing
     #expect(resultImage?.size.height == 1.0)
   }
 
+  @Test func extractIconFromDataAssetSharesIconBetweenIdenticalBitmaps() {
+    let assetName = "sharedIconImageName"
+    let assetProvider = TestAssetProvider(
+      image: createOnePixelImage(), forAssetName: assetName, package: nil)
+
+    func createBitmap() -> PlatformBitmapAssetMap {
+      return PlatformBitmapAssetMap(
+        assetName: assetName,
+        bitmapScaling: .auto,
+        imagePixelRatio: 3,
+        width: nil,
+        height: nil
+      )
+    }
+
+    let screenScale: CGFloat = 3.0
+
+    let firstIcon = createBitmap().createIcon(assetProvider: assetProvider, screenScale: screenScale)
+    let secondIcon = createBitmap().createIcon(
+      assetProvider: assetProvider, screenScale: screenScale)
+
+    #expect(firstIcon != nil)
+    #expect(firstIcon === secondIcon)
+  }
+
+  @Test func extractIconFromDataAssetDoesNotShareIconBetweenDifferentBitmaps() {
+    let assetName = "unsharedIconImageName"
+    let assetProvider = TestAssetProvider(
+      image: createOnePixelImage(), forAssetName: assetName, package: nil)
+
+    func createBitmap(imagePixelRatio: Double) -> PlatformBitmapAssetMap {
+      return PlatformBitmapAssetMap(
+        assetName: assetName,
+        bitmapScaling: .auto,
+        imagePixelRatio: imagePixelRatio,
+        width: nil,
+        height: nil
+      )
+    }
+
+    let screenScale: CGFloat = 3.0
+
+    let icon = createBitmap(imagePixelRatio: 2).createIcon(
+      assetProvider: assetProvider, screenScale: screenScale)
+    let otherIcon = createBitmap(imagePixelRatio: 3).createIcon(
+      assetProvider: assetProvider, screenScale: screenScale)
+
+    #expect(icon?.scale == 2)
+    #expect(otherIcon?.scale == 3)
+    #expect(icon !== otherIcon)
+  }
+
   @Test func extractIconFromDataBytesAuto() throws {
     let testImage = createOnePixelImage()
     let pngData = try #require(testImage.pngData())
